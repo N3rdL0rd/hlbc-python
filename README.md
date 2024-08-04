@@ -10,7 +10,7 @@ pip install hlbc
 
 ## Usage
 
-Before running this example, download either the [prebuilt bytecode]() or the [source code]() of the Clazz test file and place the compiled bytecode in the same directory as the script. 
+Before running this example, download either the [prebuilt bytecode](./test/Clazz.hl) or the [source code](./test/Clazz.hx) of the `Clazz` test file and place the compiled bytecode in the same directory as the script.
 
 ```python
 import hlbc
@@ -19,21 +19,21 @@ import hlbc
 code = hlbc.Bytecode("./Clazz.hl")
 
 # Get the debug files
-print(bytecode.get_debug_files())
+print(code.get_debug_files())
 # > ['Clazz.hx', 'C:\\HaxeToolkit\\haxe\\std/hl/_std/Std.hx', 'C:\\HaxeToolkit\\haxe\\std/hl/_std/String.hx', ... '?']
 
 # Get all functions from a specific debug file in the bytecode
-print(bytecode.get_functions("Clazz.hx"))
+print(code.get_functions("Clazz.hx"))
 # > ['fn main@22 () -> void', 'fn method@23 (Clazz) -> i32', 'fn <none>@337 ((f64, f64) -> i32, i32, i32) -> i32', ...]
 
 # Decompile a single function by index
-print(bytecode.decompile("23"))
+print(code.decompile("23"))
 # > static function method(_: Clazz): Int {
 # >  return 42;
 # > }
 
 # Stub a function
-print(bytecode.stub("23"))
+print(code.stub("23"))
 # > static function method(_: Clazz): Int {}
 ```
 
