@@ -42,4 +42,8 @@ print(code.stub("23"))
 - Any errors will be raised back to Python as simple `Exception`s, but this is subject to change.
 - The `Bytecode` class is thread-safe. You can use the same instance multiple times in different threads. It also doesn't hold the file open, so you can create multiple instances of it with the same file.
 
+## Credits
+
+- [Gui-Yom](https://github.com/Gui-Yom) (Guillaume Anthouard) for creating [hlbc](https://github.com/Gui-Yom/hlbc), which this project is just a cheap repackaging of.
+
 <!-- TODO: actual docs? pdoc3? who the hell knows... -->
