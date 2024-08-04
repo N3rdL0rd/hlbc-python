@@ -1,0 +1,24 @@
+[project]
+name = "hlbc"
+version = "0.2.0"
+description = "A (terrible) Python wrapper for hlbc"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {file = "LICENSE"}
+keywords = ["haxe", "hashlink", "decompiler", "disassembler", "hlbc"]
+maintainers = [
+  {name = "N3rdL0rd", email = "n3rdl0rd@proton.me"}
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.10",
+]
+
+[project.urls]
+homepage = "https://github.com/N3rdL0rd/hlbc-python"
+repository = "https://github.com/N3rdL0rd/hlbc-python"
+
+[build-system]
+requires = ["maturin>=0.10"]
+build-backend = "maturin"
