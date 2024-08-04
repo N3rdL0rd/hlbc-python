@@ -10,7 +10,7 @@ pip install hlbc
 
 ## Usage
 
-Before running this example, download either the [prebuilt bytecode](./test/Clazz.hl) or the [source code](./test/Clazz.hx) of the `Clazz` test file and place the compiled bytecode in the same directory as the script.
+Before running this example, download either the [prebuilt bytecode](https://github.com/N3rdL0rd/hlbc-python/raw/main/test/Clazz.hl) or the [source code](https://github.com/N3rdL0rd/hlbc-python/blob/main/test/Clazz.hx) of the `Clazz` test file and place the compiled bytecode in the same directory as the script.
 
 ```python
 import hlbc
