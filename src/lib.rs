@@ -1,9 +1,8 @@
 use hlbc::Bytecode as _Bytecode;
 use pyo3::prelude::*;
 use hlbc::fmt::EnhancedFmt;
-use hlbc_decompiler::{decompile_function, decompile_class};
 use hlbc_decompiler::ast::{Class, ClassField, Method};
-use hlbc::types::{FunPtr, RefFun, RefGlobal, Type, Function, RefField, TypeObj};
+use hlbc::types::{RefFun, Type, Function, RefField, TypeObj};
 use std::sync::Arc;
 use std::panic::{self, AssertUnwindSafe};
 
@@ -264,6 +263,29 @@ impl Bytecode {
                     Ok("lost_and_found.hx".to_string())
                 }
                 _ => Err(PyErr::new::<pyo3::exceptions::PyException, _>(format!("Index {type_idx} is not an object!"))),
+            }
+        })
+    }
+
+    fn class_named(&self, name: String) -> PyResult<String> {
+        catch_panic(|| {
+            let classes: Vec<String> = self.bytecode.types.iter().enumerate().filter_map(|(i, t)| {
+                if let Type::Obj(obj) = t {
+                    if obj.name(&self.bytecode) == name {
+                        Some(i.to_string())
+                    } else {
+                        None
+                    }
+                } else {
+                    None
+                }
+            }).collect();
+            if classes.len() == 1 {
+                Ok(classes[0].clone())
+            } else if classes.len() == 0 {
+                Err(PyErr::new::<pyo3::exceptions::PyException, _>(format!("No class named {} found!", name)))
+            } else {
+                Err(PyErr::new::<pyo3::exceptions::PyException, _>(format!("Multiple classes named {} found!", name)))
             }
         })
     }

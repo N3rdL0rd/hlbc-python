@@ -4,3 +4,4 @@ out/
 target/
 hlmod/
 PYPI_TOKEN.txt
+test/test2.py

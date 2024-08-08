@@ -26,3 +26,7 @@ assert code.decompile("23").strip() == """static function method(_: Clazz): Int 
 print(code.stub("23"))
 assert code.stub("23").strip() == "static function method(_: Clazz): Int {}"
 # > static function method(_: Clazz): Int {}
+
+print(code.class_named("Clazz"))
+assert code.class_named("Clazz") == "128"
+print(code.stub_class(code.class_named("Clazz")))
