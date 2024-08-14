@@ -15,7 +15,7 @@ fn catch_panic<F: FnOnce() -> PyResult<T>, T>(f: F) -> PyResult<T> {
     match panic::catch_unwind(AssertUnwindSafe(f)) {
         Ok(result) => result,
         Err(panic_error) => {
-            let error_msg = panic_error.downcast_ref::<String>()
+            let _error_msg = panic_error.downcast_ref::<String>()
                 .map(|s| s.as_str())
                 .or_else(|| panic_error.downcast_ref::<&str>().map(|s| *s))
                 .unwrap_or("Unknown panic occurred");
@@ -23,8 +23,7 @@ fn catch_panic<F: FnOnce() -> PyResult<T>, T>(f: F) -> PyResult<T> {
         }
     }
 }
-
-fn stub_function(code: &_Bytecode, f: &Function) -> Method {
+fn stub_function(_code: &_Bytecode, f: &Function) -> Method {
     Method {
         fun: f.findex,
         static_: true,
@@ -106,7 +105,7 @@ impl Bytecode {
             let bytecode = _Bytecode::from_file(path)
                 .map_err(|e| PyErr::new::<pyo3::exceptions::PyException, _>(format!("{:?}", e)))?;
             Ok(Self { bytecode: Arc::new(bytecode) })
-        })
+        })        
     }
 
     fn get_debug_files(&self) -> PyResult<Vec<String>> {
@@ -287,6 +286,26 @@ impl Bytecode {
             } else {
                 Err(PyErr::new::<pyo3::exceptions::PyException, _>(format!("Multiple classes named {} found!", name)))
             }
+        })
+    }
+
+    fn copy_function_from(&self, other: &Self, source_idx: String, dest_idx: String) -> PyResult<()> {
+        catch_panic(|| {
+            let source = RefFun(source_idx.parse::<usize>().unwrap()).as_fn(&other.bytecode).ok_or_else(|| 
+                PyErr::new::<pyo3::exceptions::PyException, _>(format!("Function with index {} not found!", source_idx)))?;
+            let mut binding = Arc::clone(&self.bytecode);
+            let mut dest_bytecode = Arc::get_mut(&mut binding).ok_or_else(|| 
+                PyErr::new::<pyo3::exceptions::PyException, _>("Failed to get mutable reference to destination Bytecode"))?;
+            dest_bytecode.functions[dest_idx.parse::<usize>().unwrap()] = source.clone();
+            Ok(())
+        })
+    }
+    
+    fn serialise_to(&self, path: String) -> PyResult<()> {
+        catch_panic(|| {
+            let mut file = std::fs::File::create(path).map_err(|e| PyErr::new::<pyo3::exceptions::PyException, _>(format!("{:?}", e)))?;
+            self.bytecode.serialize(&mut file).map_err(|e| PyErr::new::<pyo3::exceptions::PyException, _>(format!("{:?}", e)))?;
+            Ok(())
         })
     }
 }
