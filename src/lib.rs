@@ -289,14 +289,14 @@ impl Bytecode {
         })
     }
 
-    fn copy_function_from(&self, other: &Self, source_idx: String, dest_idx: String) -> PyResult<()> {
+    fn copy_function_from(&mut self, other: &Self, source_idx: String, dest_idx: String) -> PyResult<()> {
         catch_panic(|| {
             let source = RefFun(source_idx.parse::<usize>().unwrap()).as_fn(&other.bytecode).ok_or_else(|| 
                 PyErr::new::<pyo3::exceptions::PyException, _>(format!("Function with index {} not found!", source_idx)))?;
-            let mut binding = Arc::clone(&self.bytecode);
-            let mut dest_bytecode = Arc::get_mut(&mut binding).ok_or_else(|| 
-                PyErr::new::<pyo3::exceptions::PyException, _>("Failed to get mutable reference to destination Bytecode"))?;
+            let mut dest_bytecode = Arc::clone(&self.bytecode);
+            let mut dest_bytecode = Arc::make_mut(&mut dest_bytecode);
             dest_bytecode.functions[dest_idx.parse::<usize>().unwrap()] = source.clone();
+            self.bytecode = Arc::new(dest_bytecode.clone());
             Ok(())
         })
     }

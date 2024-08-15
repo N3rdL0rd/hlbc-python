@@ -62,8 +62,7 @@ checksum = "e5274423e17b7c9fc20b6e7e208532f9b19825d82dfd615708b70edd83df41f1"
 [[package]]
 name = "hlbc"
 version = "0.7.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ad3fa4a1a260500c35163bab076f85f4279721794151dab4dc2d44a9cfc5d1aa"
+source = "git+https://github.com/N3rdL0rd/hlbc.git?branch=clone#c604ff3d66a889b34210be72029f08fd3a8ed3ee"
 dependencies = [
  "byteorder",
  "flexstr",
@@ -86,8 +85,7 @@ dependencies = [
 [[package]]
 name = "hlbc-derive"
 version = "0.7.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6a4d0e969a683d2b965a40d481a33699648ecee82e247c0c637e57c985a49fb6"
+source = "git+https://github.com/N3rdL0rd/hlbc.git?branch=clone#c604ff3d66a889b34210be72029f08fd3a8ed3ee"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -96,7 +94,7 @@ dependencies = [
 
 [[package]]
 name = "hlbc-python"
-version = "0.4.0"
+version = "0.5.0"
 dependencies = [
  "hlbc",
  "hlbc-decompiler",
