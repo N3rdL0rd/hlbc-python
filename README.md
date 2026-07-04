@@ -1,3 +1,7 @@
+# Please use crashlink instead!
+
+Please use [crashlink](https://github.com/N3rdL0rd/crashlink), which is better than this project in every way besides performance.
+
 # hlbc-python
 
 A (terrible) Python wrapper for [hlbc](https://github.com/Gui-Yom/hlbc) - A Hashlink bytecode disassembler and decompiler.
